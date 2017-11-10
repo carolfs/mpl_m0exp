@@ -13,29 +13,37 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+"""Simulates MPL k = 3 and calculates how the mean resp. changes after a 0."""
+
+import random
+import pickle
 from mpl import mpl
 import numpy as np
 from bdata import NTRIALS
-import random
 from wavy import calc_wavy_first, calc_wavy_last, L
-import pickle
 
 A = 1
-rho = 1
-theta = 1e6
-k = 3
+RHO = 1
+THETA = 1e6
+K = 3
 
 N = 100000
 
-results = []
-for i in range(N):
-    x = list((np.random.rand(NTRIALS) < 0.7).astype(int))
-    y = [random.random() < p1 for p1 in mpl(x, k, A, rho, theta)]
-    cf = [np.mean(i) for i in calc_wavy_first(x, y, L)]
-    cl = [np.mean(i) for i in calc_wavy_last(x, y, L)]
-    results.append((y, cf, cl))
+def main():
+    "Runs the simulation and analysis, prints and saves the results."
+    results = []
+    for _ in range(N):
+        x = list((np.random.rand(NTRIALS) < 0.7).astype(int))
+        y = [random.random() < p1 for p1 in mpl(x, K, A, RHO, THETA)]
+        cwf_results = [np.mean(i) for i in calc_wavy_first(x, y, L)]
+        cwl_results = [np.mean(i) for i in calc_wavy_last(x, y, L)]
+        results.append((y, cwf_results, cwl_results))
 
-print(np.mean([np.mean(y[-100:]) for y, cf, cl in results]))
+    print(np.mean([np.mean(y[-100:]) for y, cwf_results, cwl_results in results]))
 
-with open('wavyk3.pickle', 'wb') as f:
-    pickle.dump(results, f)
+    with open('wavyk3.pickle', 'wb') as outf:
+        pickle.dump(results, outf)
+
+if __name__ == '__main__':
+    main()
+    
