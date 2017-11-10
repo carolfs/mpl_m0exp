@@ -5,6 +5,8 @@ This is the data and code for the paper:
 Feher da Silva, C.; Victorino, C. G.; Caticha, N.; Baldo, M. V. C.
 Exploration and recency as the main proximate causes of probability
 matching: a reinforcement learning analysis
+Scientific Reports 7, Article number: 15326 (2017)
+doi:10.1038/s41598-017-15587-z
 
 The behavioral data is saved in CSV format as bdata.csv
 
